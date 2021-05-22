@@ -46,9 +46,6 @@ namespace OnlineCourse.IdentityServer
                         userManager.CreateAsync(new ApplicationUser { UserName = "eaktas", Email = "evren.aktas@outlook.com", City = "İstanbul" }, "Pwd123456**").Wait();
                     }
                 }
-
-
-              
                 Log.Information("Starting host...");
                 host.Run();
                 return 0;

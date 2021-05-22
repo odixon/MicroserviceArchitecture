@@ -1,13 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using OnlineCourse.Catalog.Dtos;
-using OnlineCourse.Catalog.Extensions;
-using OnlineCourse.Catalog.Models;
 using OnlineCourse.Catalog.Repositories;
+using OnlineCourse.Extensions;
 using OnlineCourse.Shared.Result;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace OnlineCourse.Catalog.Controllers

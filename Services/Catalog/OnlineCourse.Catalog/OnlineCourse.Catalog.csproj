@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\OnlineCourse.Extensions\OnlineCourse.Extensions.csproj" />
     <ProjectReference Include="..\..\..\OnlineCourse.Shared\OnlineCourse.Shared.csproj" />
   </ItemGroup>
 

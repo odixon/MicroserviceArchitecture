@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using OnlineCourse.Catalog.Dtos;
 using OnlineCourse.Catalog.Repositories;
 using OnlineCourse.Extensions;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace OnlineCourse.Catalog.Controllers
 {
+
     [Route("api/v1/[controller]")]
     [ApiController]
     public class CategoryController : ControllerBase

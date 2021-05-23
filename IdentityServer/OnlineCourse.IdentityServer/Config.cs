@@ -11,23 +11,26 @@ namespace OnlineCourse.IdentityServer
 {
     public static class Config
     {
-
+        /*
+         * Catalog servise istek atmak için token içinde audience kısmında resource_catalog ve  photo stock servisine istek atmak için ise 
+         * resource_photo_stock_catalog olması gerekiyor diyoruz.
+         */
         public static IEnumerable<ApiResource> ApiResources =>
              new ApiResource[]
              {
+                 /*
+                  *Audience 
+                  */
                  new ApiResource("resource_catalog"){Scopes={ "coursecatalog_fullpermission" }},
                  new ApiResource("resource_photo_stock_catalog"){Scopes={ "photo_stock_fullpermission" }},
                  new ApiResource(IdentityServerConstants.LocalApi.ScopeName),
              };
-
-
 
         public static IEnumerable<IdentityResource> IdentityResources =>
                    new IdentityResource[]
                    {
 
                    };
-
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
@@ -35,7 +38,6 @@ namespace OnlineCourse.IdentityServer
                 new ApiScope("photo_stock_fullpermission","Photo Stock API için full erişim"),
                 new ApiScope(IdentityServerConstants.LocalApi.ScopeName),
             };
-
         public static IEnumerable<Client> Clients =>
             new Client[]
             {

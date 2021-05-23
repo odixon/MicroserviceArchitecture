@@ -25,6 +25,7 @@ namespace OnlineCourse.IdentityServer
         }
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLocalApiAuthentication();
             services.AddControllersWithViews();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("OnlineCourseConnection")));
@@ -56,7 +57,6 @@ namespace OnlineCourse.IdentityServer
                     options.ClientSecret = "copy client secret from Google here";
                 });
         }
-
         public void Configure(IApplicationBuilder app)
         {
             if (Environment.IsDevelopment())
@@ -64,11 +64,10 @@ namespace OnlineCourse.IdentityServer
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
-
             app.UseStaticFiles();
-
             app.UseRouting();
             app.UseIdentityServer();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {

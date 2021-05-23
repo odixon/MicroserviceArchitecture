@@ -1,6 +1,8 @@
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -28,13 +30,36 @@ namespace OnlineCourse.Catalog
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddControllers();
+
+
+            services.AddControllers(options =>
+            {
+                /*
+                 * Tüm controllerlar için Authorize attribute'ü merkezi bir  noktadan ekledik.
+                 */
+                options.Filters.Add(new AuthorizeFilter());
+
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "OnlineCourse.Catalog", Version = "v1" });
             });
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            {
+                options.Authority = Configuration["IdentityServer"]; // token kim tarafından dağıtılacak onu belirliyoruz
+                options.Audience = "resource_catalog"; // audience bilgisini veriyoruz
+                options.RequireHttpsMetadata = false; // Https durumunu false ediyoruz
+            });
+            /*
+             * appsettings dosyasından mongodb connection bilgilerini okuyup bu bilgileri  DI ile  kullanabilmek için 
+             * startup içerisinde Singleton olarak ayağa kaldırdık.  
+             */
+            #region ICatalogDatabaseSettings ve CatalogDatabaseSettings  
             services.Configure<CatalogDatabaseSettings>(Configuration.GetSection(nameof(CatalogDatabaseSettings)));
             services.AddSingleton<ICatalogDatabaseSettings>(cds => cds.GetRequiredService<IOptions<CatalogDatabaseSettings>>().Value);
+            #endregion
+
             services.AddSingleton<ICatalogContext, CatalogContext>();
             services.AddScoped<ICategoryService, CategoryManager>();
             services.AddScoped<ICourseService, CourseManager>();
@@ -52,11 +77,9 @@ namespace OnlineCourse.Catalog
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "OnlineCourse.Catalog v1"));
             }
-
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

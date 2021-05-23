@@ -8,20 +8,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using OnlineCourse.Extensions;
+using Microsoft.AspNetCore.Authorization;
+using static IdentityServer4.IdentityServerConstants;
 
 namespace OnlineCourse.IdentityServer.Controllers
 {
+    [Authorize(LocalApi.PolicyName)]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
     {
-
         private readonly UserManager<ApplicationUser> _userManager;
         public UserController(UserManager<ApplicationUser> userManager)
         {
             _userManager = userManager;
         }
-
         [HttpPost]
         [Route("signup")]
         public async Task<ActionResult> SignUp(SignupDto dto)
